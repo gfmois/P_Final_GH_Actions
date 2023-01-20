@@ -1,0 +1,13 @@
+name: Práctica final Github Actions Moisés Guerola
+on:
+  push:
+    branches: [ main ]
+jobs:
+  linter_jon:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout lint
+        uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run lint
+      
