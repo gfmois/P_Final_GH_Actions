@@ -3,7 +3,7 @@ on:
   push:
     branches: [ main ]
 jobs:
-  linter_jon:
+  linter_job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout lint
@@ -11,3 +11,6 @@ jobs:
       - run: npm install
       - run: npm run lint
       
+  # cypress_job:
+  #   runs-on: ubuntu-latest
+  #   needs: [ linter_job ]
