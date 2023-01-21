@@ -44,8 +44,8 @@ jobs:
         with:
           name: test_result
       - name: Get Result Value
-        id: result_cypress_tests
         run: echo "::set-output name=cypress_outcome::$(cat result.txt)"
+        id: result_cypress_tests
       - name: Update Readme
         uses: ./.github/actions/change_readme
         with:
