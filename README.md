@@ -17,7 +17,7 @@
       - run: npm run lint
 ```
 
-// AQUÍ IRÁ LA IMAGEN ERROR
+<img src="https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Linter_Workflow_Error.png" />
 
 > Como vemos cuando lo lanzamos por primera vez el `linter` devuelve error, esto es porque dentro del código existen errores que hacen que falle, estos errores son:
 > * El uso de comillas simples y no comillas dobles.
@@ -26,7 +26,7 @@
 >
 > Una vez cambiado todo esto si subimos los cambios el workflow debería haber funcionado:
 
-// AQUÍ FOTO DE QUE SI QUE VA
+<img style="margin-left: 30%;" src="https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Linter_Workflow_Success.png" />
 
 
 ### CYPRESS
@@ -124,7 +124,7 @@ fs.readFile(readme, "utf-8", (err, data) => {
         data.replace(success, url)
     }
 
-    fs.writeLine(readme, data, (err) => {
+    fs.writeFile(readme, data, (err) => {
         if (err) throw err;
 
         process.exit(0)
