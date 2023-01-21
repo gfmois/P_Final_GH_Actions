@@ -33,13 +33,100 @@
 > Para usar la action primero lo que hacemos es hacer un `build` de la aplicación y despues iniciamos los tests, además añadimos el archivo de configuración que tenemos en nuestro proyecto ya creado `cypress.json` dentro del `with` del step de cypress justo antes de hacer el build.
 Especificamos que queremos que siga aunque los test fallen para que en el siguiente step cree un archivo llamado `result.txt` el cual guardará el resultado de los tests y el último step será para poder parsar ese `txt` a otro job y le añadimos un `id` para poder llamarlo y saber el resultado de los tests, en este caso el siguiente que se encargará de añadir una badge si todo ha ido bien o no.
 
-// WORKFLOW DE CYPRESS
+```yml
+cypress_job:
+    runs-on: ubuntu-latest
+    needs: linter_job
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v3
+      - name: Cypress Run
+        uses: cypress-io/github-action@v5
+        with:
+          config-file: cypress.json
+          build: npm run build
+          start: npm start
+        continue-on-error: true
+        id: cypressTests
+      - name: Guardar resultado en Result.txt
+        run: echo ${{ steps.cypressTests.outcome }} > result.txt
+      - name: Upload Artifact Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_result
+          path: result.txt
+```
 
 ### BADGES
 > Creamos un job debajo del job anterior, este se encargará de poner un `badge` dentro del `README`, el cual irá cambiando dependiendo del resultado de los tests que le pasará por `artifact` el job de cypress. Una vez tenga el resultado del job se irá a una action que hemos creado nosotros pasandole la información del resultado y modificará el readme cambiando la badge por uno como que todo ha ido bien [success] o como que ha ido mal [failure]. Una vez se haya modificado se se hará un push y este se hará en el step con la action [EndBug/add-and-commit@v9] añadiendo la información del `pusher` y con el mensaje `Result of the tests on Cypress`.
 
-// WORKFLOW DE LOS BADGES
+#### JOB BADGES
+```yml
+badge_job:
+    runs-on: ubuntu-latest
+    needs: cypress_job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get Result from Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test_result
+      - name: Get Result Value
+        run: echo "::set-output name=cypress_outcome::$(cat result.txt)"
+        id: result_cypress_tests
+      - name: Update Readme
+        uses: "./.github/actions/update_readme"
+        with:
+          result: ${{ steps.result_cypress_tests.outputs.cypress_outcome }}
+      - name: Commit Readme Changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "."
+          author_name: ${{ github.event.pusher.name }}
+          autho_email: ${{ github.event.pusher.email }}
+          message: "Result of the tests on Cypress"
+          push: true
+```
 
-// ACTION.YML
+#### ACTION PARA ACTUALIZAR EL README
+```yml
+name: Update Readme Actions
+description: Takes the result of the tests and updates the readme adding an badge
+inputs:
+  result:
+    description: Gets the result of Cypress
+    required: true
+runs:
+  using: "node16"
+  main: "dist/index.js"
+```
 
-// INDEX.JS
+#### INDEX.JS DE LA ACTION
+```js
+const core = require("@actions/core")
+const _fs = require("fs")
+
+const readme = "./README.md"
+const result = core.getInput("result")
+let url = "https://img.shields.io/badge/"
+
+const success = "tested%20with-Cypress-04C38E.svg"
+const failure = "test-failure-red"
+
+url = `${url}${result == "success" ? success : failure}`
+
+_fs.readFile(readme, "utf-8", (err, data) => {
+    if (err) throw err;
+
+    if (data.search(success) == -1) {
+        data.replace(success, url)
+    }
+
+    _fs.writeLine(readme, data, (err) => {
+        if (err) throw err;
+
+        process.exit(0)
+    })
+})
+```
