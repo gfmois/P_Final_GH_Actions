@@ -4,6 +4,6 @@ inputs:
   result:
     description: Gets the result of Cypress
     required: true
-  runs:
-    using: "node16"
-    main: "dist/index.js"
+runs:
+  using: "node16"
+  main: "dist/index.js"
