@@ -26,7 +26,7 @@
 >
 > Una vez cambiado todo esto si subimos los cambios el workflow debería haber funcionado:
 
-<img style="margin-left: 30%;" src="https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Linter_Workflow_Success.png" />
+<img src="https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Linter_Workflow_Success.png" />
 
 
 ### CYPRESS
@@ -60,6 +60,8 @@ cypress_job:
 
 ### BADGES
 > Creamos un job debajo del job anterior, este se encargará de poner un `badge` dentro del `README`, el cual irá cambiando dependiendo del resultado de los tests que le pasará por `artifact` el job de cypress. Una vez tenga el resultado del job se irá a una action que hemos creado nosotros pasandole la información del resultado y modificará el readme cambiando la badge por uno como que todo ha ido bien [success] o como que ha ido mal [failure]. Una vez se haya modificado se se hará un push y este se hará en el step con la action [EndBug/add-and-commit@v9] añadiendo la información del `pusher` y con el mensaje `Result of the tests on Cypress`.
+
+> Nota: He tenido que modificar los ajustes del repositorio para que el workflow tuviera todos los permisos de lectura y escritura sino no me dejaba modificar el readme desde la action.
 
 #### JOB BADGES
 ```yml
