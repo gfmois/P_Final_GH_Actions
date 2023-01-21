@@ -2818,23 +2818,25 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(186)
-const fs = require(fs)
+const _fs = __nccwpck_require__(147)
 
 const readme = "./README.md"
 const result = core.getInput("result")
 let url = "https://img.shields.io/badge/"
 
 const success = "tested%20with-Cypress-04C38E.svg"
-const error = "test-failure-red"
+const failure = "test-failure-red"
 
-url = `${url}${result == "success" ? success : error}`
+url = `${url}${result == "success" ? success : failure}`
 
-fs.readFile(readme, "utg-8", (err, data) => {
+_fs.readFile(readme, "utg-8", (err, data) => {
     if (err) throw err;
 
-    data += `![result](${url})`
+    if (data.search(success) == -1) {
+        data.replace(success, url)
+    }
 
-    fs.writeLine(readme, data, (err) => {
+    _fs.writeLine(readme, data, (err) => {
         if (err) throw err;
 
         process.exit(0)

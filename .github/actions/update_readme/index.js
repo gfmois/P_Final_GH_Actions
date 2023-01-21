@@ -1,5 +1,5 @@
 const core = require("@actions/core")
-const fs = require(fs)
+const _fs = require("fs")
 
 const readme = "./README.md"
 const result = core.getInput("result")
@@ -10,14 +10,14 @@ const failure = "test-failure-red"
 
 url = `${url}${result == "success" ? success : failure}`
 
-fs.readFile(readme, "utg-8", (err, data) => {
+_fs.readFile(readme, "utg-8", (err, data) => {
     if (err) throw err;
 
     if (data.search(success) == -1) {
         data.replace(success, url)
     }
 
-    fs.writeLine(readme, data, (err) => {
+    _fs.writeLine(readme, data, (err) => {
         if (err) throw err;
 
         process.exit(0)

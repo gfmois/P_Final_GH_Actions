@@ -6,7 +6,15 @@
 ### LINTER
 > Creamos un workflow dentro de la carpeta `.github/workflows` llamado `p_final_gh_actions_workflow.yml` el cual dentro tendrá la primera configuración, que será el `linter`, para ello creamos un job que dentro tendrá un step que comprobará el código haciendo uso de la action `actions/checkout@v2` y del script del `package.json`.
 
-// WORKFLOW
+```yml
+  linter_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout lint
+        uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run lint
+```
 
 // AQUÍ IRÁ LA IMAGEN ERROR
 
@@ -29,3 +37,9 @@ Especificamos que queremos que siga aunque los test fallen para que en el siguie
 
 ### BADGES
 > Creamos un job debajo del job anterior, este se encargará de poner un `badge` dentro del `README`, el cual irá cambiando dependiendo del resultado de los tests que le pasará por `artifact` el job de cypress. Una vez tenga el resultado del job se irá a una action que hemos creado nosotros pasandole la información del resultado y modificará el readme cambiando la badge por uno como que todo ha ido bien [success] o como que ha ido mal [failure]. Una vez se haya modificado se se hará un push y este se hará en el step con la action [EndBug/add-and-commit@v9] añadiendo la información del `pusher` y con el mensaje `Result of the tests on Cypress`.
+
+// WORKFLOW DE LOS BADGES
+
+// ACTION.YML
+
+// INDEX.JS
