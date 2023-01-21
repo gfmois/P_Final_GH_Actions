@@ -2829,7 +2829,7 @@ const failure = "test-failure-red"
 
 url = `${url}${result == "success" ? success : failure}`
 
-_fs.readFile(readme, "utg-8", (err, data) => {
+_fs.readFile(readme, "utf-8", (err, data) => {
     if (err) throw err;
 
     if (data.search(success) == -1) {
