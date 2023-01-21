@@ -43,5 +43,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test_result
+      - name: Get Result Value
+        id: result_cypress_tests
+        run: echo "::set-output name=cypress_outcome::$(cat result.txt)"
       - name: Update Readme
         uses: ./.github/actions/change_readme
+        with:
+          result: ${{ step.result_cypress_tests.outputs.cypress_outcome }}
+        
