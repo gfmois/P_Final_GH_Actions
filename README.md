@@ -133,7 +133,7 @@ _fs.readFile(readme, "utf8", (err, data) => {
 
     if (pos != -1) {
         console.log(`(${resultBadge})`);
-        data = data.replace('(https://img.shields.io/badge/test-failure-red)', `(${resultBadge})`)
+        data = data.replace('(https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)', `(${resultBadge})`)
     } else {
         if (data.indexOf(`(${failure})`) != -1 && result == 'success') {
             data = data.replace(`(${failure})`, `(${success})`)
