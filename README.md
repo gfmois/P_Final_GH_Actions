@@ -209,3 +209,15 @@ deploy_job:
   ### VERCEL CAMBIANDO COSAS
 
   ![vercel-page-2](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Page_2.gif)
+
+  > Ahora si vamos a https://p-final-gh-actions-gfmois.vercel.app/ veremos el resultado
+
+### MAIL JOB
+> En este job haremos que envie un mensaje a los usuarios del repositorio, para ello creamos un nuevo job en el workflow llamado `notification_job` el cual se esperará a que todos los demás jobs se acaben para ejecutarse y tomará todos los resultados de los jobs anteriores usando una action que vamos a crear, creamos una carpeta dentro de `.github/actions` llamada `notification_action` y dentro ponemos un `action.yml` y un `index.js` que tendrán dentro lo siguiente:
+
+#### ACTION
+
+  ```yml
+  ```
+
+#### INDEX
