@@ -6,7 +6,7 @@
 
 ## RESULTADO DE LOS ÚLTMOS TESTS
 
-![cypress_result](https://img.shields.io/badge/test-failure-red)
+![cypress_result](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
 
 ### LINTER
 > Creamos un workflow dentro de la carpeta `.github/workflows` llamado `p_final_gh_actions_workflow.yml` el cual dentro tendrá la primera configuración, que será el `linter`, para ello creamos un job que dentro tendrá un step que comprobará el código haciendo uso de la action `actions/checkout@v2` y del script del `package.json`.
