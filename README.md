@@ -125,7 +125,7 @@ const failure = "https://img.shields.io/badge/test-failure-red"
 let resultBadge = result == 'success' ? success : failure
 
 _fs.readFile(readme, "utf8", (err, data) => {
-    let pos = data.indexOf('(test_result_badge)')
+    let pos = data.indexOf('(https://img.shields.io/badge/test-failure-red)')
 
     console.log(pos);
     
