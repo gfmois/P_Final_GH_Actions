@@ -154,7 +154,10 @@ _fs.readFile(readme, "utf8", (err, data) => {
 ```
 
 ### Action Funcionando => Tests Pasados
+> Para que los tests funcionen vamos al archivo `pages/api/index.js` y modificamos el `POST0` a `POST`, con eso funcionarán todos los tests
 
-
+![test_success](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Badges_Success.png)
 
 ### Action Funcionando => Tests No Pasados
+
+![test_failure](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Badges_Failure.png)
