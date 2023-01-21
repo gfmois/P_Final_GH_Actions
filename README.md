@@ -16,3 +16,9 @@
 
 // AQUÍ FOTO DE QUE SI QUE VA
 
+
+### CYPRESS
+> Creamos un job dentro del workflow creado antes y en este añadimos dos steps, el primero el `checkout` y el segnudo que se encargará de llamar a la action de cypress.
+> Para usar la action primero lo que hacemos es hacer un `build` de la aplicación y despues iniciamos los tests.
+
+// WORKFLOW DE CYPRESS
