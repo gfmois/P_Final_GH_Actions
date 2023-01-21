@@ -208,4 +208,4 @@ deploy_job:
 
   ### VERCEL CAMBIANDO COSAS
 
-  ![vercel-page-2](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Page_2.PNG)
+  ![vercel-page-2](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Page_2.gif)
