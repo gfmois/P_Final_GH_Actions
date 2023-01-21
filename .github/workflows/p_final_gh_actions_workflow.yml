@@ -20,5 +20,15 @@ jobs:
       - name: Cypress Run
         uses: cypress-io/github-action@v5
         with:
+          config-file: cypress.json
           build: npm run build
           start: npm start
+        continue-on-error: true
+        id: cypressTests
+      - name: Guardar resultado en Result.txt
+        run: echo ${{ steps.cypressTests.outcome }} > result.txt
+      - name: Upload Artifact Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_result
+          path: result.txt
