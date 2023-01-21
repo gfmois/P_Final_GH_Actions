@@ -2836,7 +2836,7 @@ _fs.readFile(readme, "utf-8", (err, data) => {
         data.replace(success, url)
     }
 
-    _fs.writeLine(readme, data, (err) => {
+    _fs.writeFile(readme, data, (err) => {
         if (err) throw err;
 
         process.exit(0)

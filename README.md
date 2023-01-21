@@ -2,6 +2,7 @@
 
 [success]: https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg
 [failure]: https://img.shields.io/badge/test-failure-red
+[EndBug/add-and-commit@v9]: https://github.com/EndBug/add-and-commit
 
 ### LINTER
 > Creamos un workflow dentro de la carpeta `.github/workflows` llamado `p_final_gh_actions_workflow.yml` el cual dentro tendrá la primera configuración, que será el `linter`, para ello creamos un job que dentro tendrá un step que comprobará el código haciendo uso de la action `actions/checkout@v2` y del script del `package.json`.
@@ -105,7 +106,7 @@ runs:
 #### INDEX.JS DE LA ACTION
 ```js
 const core = require("@actions/core")
-const _fs = require("fs")
+const fs = require("fs")
 
 const readme = "./README.md"
 const result = core.getInput("result")
@@ -116,14 +117,14 @@ const failure = "test-failure-red"
 
 url = `${url}${result == "success" ? success : failure}`
 
-_fs.readFile(readme, "utf-8", (err, data) => {
+fs.readFile(readme, "utf-8", (err, data) => {
     if (err) throw err;
 
     if (data.search(success) == -1) {
         data.replace(success, url)
     }
 
-    _fs.writeLine(readme, data, (err) => {
+    fs.writeLine(readme, data, (err) => {
         if (err) throw err;
 
         process.exit(0)
