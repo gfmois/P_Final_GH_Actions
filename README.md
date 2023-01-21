@@ -4,6 +4,8 @@
 [failure]: https://img.shields.io/badge/test-failure-red
 [EndBug/add-and-commit@v9]: https://github.com/EndBug/add-and-commit
 
+![cypress_result][test_result_badge]
+
 ### LINTER
 > Creamos un workflow dentro de la carpeta `.github/workflows` llamado `p_final_gh_actions_workflow.yml` el cual dentro tendrá la primera configuración, que será el `linter`, para ello creamos un job que dentro tendrá un step que comprobará el código haciendo uso de la action `actions/checkout@v2` y del script del `package.json`.
 
