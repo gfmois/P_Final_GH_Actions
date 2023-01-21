@@ -156,8 +156,43 @@ _fs.readFile(readme, "utf8", (err, data) => {
 ### Action Funcionando => Tests Pasados
 > Para que los tests funcionen vamos al archivo `pages/api/index.js` y modificamos el `POST0` a `POST`, con eso funcionarán todos los tests
 
-![test_success](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Badges_Success.png)
+![test_success](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Badges_Success.PNG)
 
 ### Action Funcionando => Tests No Pasados
 
-![test_failure](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Badges_Failure.png)
+![test_failure](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Badges_Failure.PNG)
+
+
+[vercel]: https://vercel.com
+[p-final-gh-actions]: https://p-final-gh-actions.vercel.app/
+[amondnet/vercel-action]: https://github.com/amondnet/vercel-action
+
+### VERCEL
+> Nos creamos una cuenta en [Vercel] con `github` y importamos el proyecto de `Next.js` que estámos usando, en la parte de `Build and  Output Settings` habilitamos la opción de `Build Command` para hacer un `Override` y dentro borramos lo que nos deja el input por espacio en blanco:
+
+![vercel-config](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/VercelConfig.PNG)
+
+> Una vez hecho esto le damos a `Deploy` y nos esperamos ya que se estará desplegando. Una vez desplegado nos generará una url hacia nuestro sitio web, la mia es la siguiente: [p-final-gh-actions]. Hecho esto nos vamos al workflow que tenemos y creamos un nuevo step para configurar `vercel`, en esta caso usaremos la action del siguiente repositorio [amondnet/vercel-action]:
+
+#### WORKFLOW VERCEL
+```yml
+deploy_job:
+  runs-on: ubuntu-latest
+  needs: cypress_job
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Upload to Vercel
+      uses: amondnet/vercel-action@v20
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./
+```
+
+> Como vemos tenemos que configurar varios `secrets`, para ello vamos a `vercel` y dentro del proyecto creado, en el apartado de `settings`, encontraremos el `project-id`, lo copiamos y lo guardamos dentro de los secrets de nuestro repositorio de github, al igual que `vercel-token` y el `vercel-org-id` que se encuentran en los ajustes de la cuenta, dentro de `Tokens`, creamos uno con el nombre que querramos y le damos a generar, automáticamente nos generará uno el cual guardaremos como `VERCEL_TOKEN` y el `vercel-org-id` lo encontraremos en nuestra cuenta abajo de todo como `Your ID`:
+
+#### TOKEN
+
+![vercel-token](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Settings_Token.PNG)
