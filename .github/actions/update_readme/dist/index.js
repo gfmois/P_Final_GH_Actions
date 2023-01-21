@@ -2821,7 +2821,7 @@ const core = __nccwpck_require__(186)
 const _fs = __nccwpck_require__(147)
 
 const readme = "./README.md"
-const result = core.getInput("result") || "success"
+const result = core.getInput("result")
 
 const success = "https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg"
 const failure = "https://img.shields.io/badge/test-failure-red"
@@ -2830,13 +2830,12 @@ let resultBadge = result == 'success' ? success : failure
 
 _fs.readFile(readme, "utf8", (err, data) => {
     let pos = data.indexOf('(test_result_badge)')
-
-    console.log(pos);
     
     if (err) throw err;
 
+    console.log(result);
+
     if (pos != -1) {
-        console.log(`(${resultBadge})`);
         data = data.replace('(test_result_badge)', `(${resultBadge})`)
     } else {
         if (data.indexOf(`(${failure})`) != -1 && result == 'success') {
