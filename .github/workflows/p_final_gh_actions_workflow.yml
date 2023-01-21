@@ -1,4 +1,4 @@
-name: Práctica final Github Actions Moisés Guerola
+name: Práctica final Github Actionte Moisés Guerola
 on:
   push:
     branches: [ main ]
@@ -49,5 +49,5 @@ jobs:
       - name: Update Readme
         uses: ./.github/actions/change_readme
         with:
-          result: ${{ step.result_cypress_tests.outputs.cypress_outcome }}
+          result: ${{ steps.result_cypress_tests.outputs.cypress_outcome }}
         
