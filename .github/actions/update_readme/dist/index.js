@@ -2833,9 +2833,9 @@ _fs.readFile(readme, "utf-8", (err, data) => {
     if (err) throw err;
     
     if (data.search(success) == -1) {
-        data.length == 0
-            ? data += url
-            : data.replace(success, url)
+        data += url
+    } else {
+        data.replace(success, url)
     }
 
     _fs.writeFile(readme, data, (err) => {
