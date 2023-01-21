@@ -6,7 +6,7 @@
 
 ## RESULTADO DE LOS ÚLTMOS TESTS
 
-![cypress_result](https://img.shields.io/badge/test-failure-red)
+![cypress_result](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
 
 ### LINTER
 > Creamos un workflow dentro de la carpeta `.github/workflows` llamado `p_final_gh_actions_workflow.yml` el cual dentro tendrá la primera configuración, que será el `linter`, para ello creamos un job que dentro tendrá un step que comprobará el código haciendo uso de la action `actions/checkout@v2` y del script del `package.json`.
@@ -196,3 +196,16 @@ deploy_job:
 #### TOKEN
 
 ![vercel-token](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Settings_Token.PNG)
+
+### VERCEL FUNCIONANDO
+  #### GITHUB
+  ![vercel-working-gh](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Working_1.PNG)
+
+  #### VERCEL
+  ![vercel-page-1](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Page_1.PNG)
+
+> Para ver que si que funciona aquí está subido por primera vez y lo que voy a hacer es modificar un poco el `index.js` y poner mi nombre y algo más, subirlo con un push y ver si ha cambiado:
+
+  ### VERCEL CAMBIANDO COSAS
+
+  ![vercel-page-2](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Vercel_Page_2.PNG)
