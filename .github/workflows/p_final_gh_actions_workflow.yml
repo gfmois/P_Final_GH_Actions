@@ -32,3 +32,16 @@ jobs:
         with:
           name: test_result
           path: result.txt
+
+  badge_job:
+    runs-on: ubuntu-latest
+    needs: cypress_job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get Result from Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test_result
+      - name: Update Readme
+        uses: ./.github/actions/change_readme
