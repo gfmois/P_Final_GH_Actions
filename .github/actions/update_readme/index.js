@@ -6,14 +6,16 @@ const result = core.getInput("result")
 let url = "https://img.shields.io/badge/"
 
 const success = "tested%20with-Cypress-04C38E.svg"
-const error = "test-failure-red"
+const failure = "test-failure-red"
 
-url = `${url}${result == "success" ? success : error}`
+url = `${url}${result == "success" ? success : failure}`
 
 fs.readFile(readme, "utg-8", (err, data) => {
     if (err) throw err;
 
-    data += `![result](${url})`
+    if (data.search(success) == -1) {
+        data.replace(success, url)
+    }
 
     fs.writeLine(readme, data, (err) => {
         if (err) throw err;
