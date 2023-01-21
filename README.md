@@ -4,6 +4,8 @@
 [failure]: https://img.shields.io/badge/test-failure-red
 [EndBug/add-and-commit@v9]: https://github.com/EndBug/add-and-commit
 
+## RESULTADO DE LOS ÚLTMOS TESTS
+
 ![cypress_result](https://img.shields.io/badge/test-failure-red)
 
 ### LINTER
@@ -63,6 +65,8 @@ cypress_job:
 ### BADGES
 > Creamos un job debajo del job anterior, este se encargará de poner un `badge` dentro del `README`, el cual irá cambiando dependiendo del resultado de los tests que le pasará por `artifact` el job de cypress. Una vez tenga el resultado del job se irá a una action que hemos creado nosotros pasandole la información del resultado y modificará el readme cambiando la badge por uno como que todo ha ido bien [success] o como que ha ido mal [failure]. Una vez se haya modificado se se hará un push y este se hará en el step con la action [EndBug/add-and-commit@v9] añadiendo la información del `pusher` y con el mensaje `Result of the tests on Cypress`.
 
+> Para que funcione la action tenemos que compilarla usando el `ncc` de paquete de vercel `@vercel/ncc` ejecutando el comando `npm run build` de dentro de la carpeta de la action o usando desde la terminal `ncc build index.js` nos crea un directorio nuevo llamado `dist` y adentro un fichero `index.js` con nuestro código compilado listo para usarlo en la action.
+
 > Nota: He tenido que modificar los ajustes del repositorio para que el workflow tuviera todos los permisos de lectura y escritura sino no me dejaba modificar el readme desde la action.
 
 #### JOB BADGES
@@ -110,28 +114,47 @@ runs:
 #### INDEX.JS DE LA ACTION
 ```js
 const core = require("@actions/core")
-const fs = require("fs")
+const _fs = require("fs")
 
 const readme = "./README.md"
-const result = core.getInput("result")
-let url = "https://img.shields.io/badge/"
+const result = core.getInput("result") || "success"
 
-const success = "tested%20with-Cypress-04C38E.svg"
-const failure = "test-failure-red"
+const success = "https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg"
+const failure = "https://img.shields.io/badge/test-failure-red"
 
-url = `${url}${result == "success" ? success : failure}`
+let resultBadge = result == 'success' ? success : failure
 
-fs.readFile(readme, "utf-8", (err, data) => {
+_fs.readFile(readme, "utf8", (err, data) => {
+    let pos = data.indexOf('(test_result_badge)')
+
+    console.log(pos);
+    
     if (err) throw err;
 
-    if (data.search(success) == -1) {
-        data.replace(success, url)
+    if (pos != -1) {
+        console.log(`(${resultBadge})`);
+        data = data.replace('(test_result_badge)', `(${resultBadge})`)
+    } else {
+        if (data.indexOf(`(${failure})`) != -1 && result == 'success') {
+            data = data.replace(`(${failure})`, `(${success})`)
+        }
+
+        if (data.indexOf(`(${success})`) != -1 && result == 'failure') {
+            data = data.replace(`(${success})`, `(${failure})`)
+        }
     }
 
-    fs.writeFile(readme, data, (err) => {
+
+    _fs.writeFile(readme, data, (err) => {
         if (err) throw err;
 
         process.exit(0)
     })
 })
 ```
+
+### Action Funcionando => Tests Pasados
+
+
+
+### Action Funcionando => Tests No Pasados
