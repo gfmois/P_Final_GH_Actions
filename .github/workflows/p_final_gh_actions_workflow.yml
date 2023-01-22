@@ -85,7 +85,7 @@ jobs:
           result_linter: ${{ needs.linter_job.result }}
           result_cypress: ${{ needs.cypress_job.result }}
           result_badge: ${{ needs.badge_job.result }}
-          result_deploy: ${{ needs.deploy.result }}
+          result_deploy: ${{ needs.deploy_job.result }}
           email_user: ${{ secrets.EMAIL_ACCOUNT }}
           email_password: ${{ secrets.EMAIL_PASSWORD }}
           email_addressee: ${{ secrets.EMAIL_ADDRESSEE }}

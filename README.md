@@ -215,9 +215,119 @@ deploy_job:
 ### MAIL JOB
 > En este job haremos que envie un mensaje a los usuarios del repositorio, para ello creamos un nuevo job en el workflow llamado `notification_job` el cual se esperará a que todos los demás jobs se acaben para ejecutarse y tomará todos los resultados de los jobs anteriores usando una action que vamos a crear, creamos una carpeta dentro de `.github/actions` llamada `notification_action` y dentro ponemos un `action.yml` y un `index.js` que tendrán dentro lo siguiente:
 
-#### ACTION
-
-  ```yml
-  ```
-
 #### INDEX
+
+```js
+const core = require('@actions/core')
+const nodemailer = require('nodemailer')
+
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+        user: core.getInput('email_user'),
+        pass: core.getInput('email_password')
+    }
+})
+
+let mailToOptions = {
+    from: core.getInput("email_user"),
+    to: core.getInput('email_addressee'),
+    subject: "Resultado Jobs Práctica Final GH Actions",
+    html: `
+    Estos son los resultados del último commit del repositorio:
+    <ul>
+        <li>Linter: ${core.getInput('result_linter')}</li>
+    </ul>
+    <ul>
+        <li>Cypress: ${core.getInput('result_cypress')}</li>
+    </ul>
+    <ul>
+        <li>Badges: ${core.getInput('result_badge')}</li>
+    </ul>
+    <ul>
+        <li>Deploy: ${core.getInput('result_deploy')}</li>
+    </ul>
+    `
+}
+
+transporter.sendMail(mailToOptions, (e) => {
+    if (e != null) {
+      throw err;
+    }
+    process.exit(0)
+})
+```
+
+> Como vemos hay que configurar varios inputs en el `action.yml` para poder pasarselos al index, estos son los resultados de los jobs y la información del correo, tanto quien lo envia como para quien va el correo. Para recoger el resultado de los test simplemente como `notification_job` depende de todos los tests cuando tengamos que pasar por los inputs del with usaremos: `${{ needs.job.result }}` y con eso pasarémos a la action el valor del job que querramos.
+
+> Para poder pasar los datos del correo los pasaremos por `secrets` y para ello tendrémos que configurar un poco el email. Dentro de `gmail` vamos al apartado de `seguridad` y en `Contraseñas para aplicaciones` generamos una, esa contraseña que nos da la copiaremos dentro de los `secrets` del repositorio como `EMAIL_PASSWORD`, tanto `EMAIL_ACCOUNT` como `EMAIL_ADDRESSEE` los dejamos dentro de secrets en texto plano.
+
+#### CONFIGURACIÓN DE EMAIL
+![email-nodemailer](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/NodeMailer_Password_Application.PNG)
+
+> Una vez tenemos configurado el `index.js` y los `secrets` del repositorio vamos a la `action.yml` dentro de nuestra carpeta y añadimos lo siguiente:
+
+```yml
+name: Send Email using Mailgun Action
+description: Sends an email with the result of the others jobs
+inputs:
+  result_linter:
+    description: Gets the result of the linter's execution job
+    required: true
+  result_cypress:
+    description: Gets the result of the Cypress' execution job
+    required: true
+  result_badge:
+    description: Gets the result of the badge's execution job
+    required: true
+  result_deploy:
+    description: Gets the result of the deploy's execution job
+    required: true
+  email_user:
+    description: Gmail Account
+    required: true
+  email_password:
+    description: Gmail Account
+    required: true
+  email_addressee:
+    description: Where goes the email
+    required: true
+runs:
+  using: "node16"
+  main: "dist/index.js"
+```
+
+[lowlighter/metrics@latest]: https://github.com/lowlighter/metrics
+[gfmois]: https://github.com/gfmois/gfmois.git
+
+### METRICS
+> Para crear el job para que añada las métricas a nuestro readme personal creamos un nuevo job que utilizará la action [lowlighter/metrics@latest], para ello nos vamos a nuestro repositorio que contiene el README, [gfmois], y añadimos un workflow, el cual dentro contendrá lo siguiente:
+
+```yml
+name: Metrics for gfmois
+on:
+  push:
+    branches: main
+    
+jobs:
+  metrics_job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Metrics Action
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.activity.svg
+          token: ${{ secrets.TOKEN }}
+          base: ""
+          plugin_activity: yes
+          plugin_activity_days: 0
+          plugin_activity_filter: issue, pr, release, fork, review, ref/create
+```
+
+> Con este workflow creado dentro del repositorio [gfmois] al final del `README` añadimos dentro de una etiqueta `img` el `src` siguiente `/metrics.plugin.activity.svg` con eso al final del archivo, que es donde yo lo he añadido, veremos lo siguiente:
+
+![img-repo](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/GitHub_GFMOIS.PNG)
