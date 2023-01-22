@@ -2,7 +2,9 @@ const core = require('@actions/core')
 const nodemailer = require('nodemailer')
 
 let transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
         user: core.getInput('email_user'),
         pass: core.getInput('email_password')

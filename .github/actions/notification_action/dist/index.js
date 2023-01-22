@@ -15830,7 +15830,9 @@ const core = __nccwpck_require__(2186)
 const nodemailer = __nccwpck_require__(4289)
 
 let transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
         user: core.getInput('email_user'),
         pass: core.getInput('email_password')
