@@ -1,10 +1,6 @@
 const core = require('@actions/core')
 const nodemailer = require('nodemailer')
 
-console.log(core.getInput('email_user'));
-console.log(core.getInput('email_addressee'));
-console.log(core.getInput('email_password'));
-
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -37,5 +33,6 @@ let mailToOptions = {
 }
 
 transporter.sendMail(mailToOptions, (e) => {
+    console.log(e);
     process.exit(0)
 })

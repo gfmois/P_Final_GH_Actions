@@ -15829,10 +15829,6 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(2186)
 const nodemailer = __nccwpck_require__(4289)
 
-console.log(core.getInput('email_user'));
-console.log(core.getInput('email_addressee'));
-console.log(core.getInput('email_password'));
-
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -15865,6 +15861,7 @@ let mailToOptions = {
 }
 
 transporter.sendMail(mailToOptions, (e) => {
+    console.log(e);
     process.exit(0)
 })
 })();
