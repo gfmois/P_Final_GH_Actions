@@ -330,4 +330,4 @@ jobs:
 
 > Con este workflow creado dentro del repositorio [gfmois] al final del `README` añadimos dentro de una etiqueta `img` el `src` siguiente `/metrics.plugin.activity.svg` con eso al final del archivo, que es donde yo lo he añadido, veremos lo siguiente:
 
-![img-repo](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/GitHub_GFMOIS.PNG)
+![img-repo](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Github_GFMOIS.PNG)
