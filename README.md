@@ -299,6 +299,12 @@ runs:
   main: "dist/index.js"
 ```
 
+> Mensaje recibido de gmail:
+
+> Nota: Me lo pone partido porque puse mal el nombre de `deploy_job`:
+
+![email-msg](https://raw.githubusercontent.com/gfmois/P_Final_GH_Actions/main/readme_assets/Email_Result.PNG)
+
 [lowlighter/metrics@latest]: https://github.com/lowlighter/metrics
 [gfmois]: https://github.com/gfmois/gfmois.git
 
